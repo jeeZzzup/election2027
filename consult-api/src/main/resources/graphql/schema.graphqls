@@ -1,0 +1,82 @@
+scalar Date
+scalar DateTime
+scalar BigDecimal
+
+type Query {
+  polls(institute: String, from: Date, to: Date, round: Int, page: Int = 0, size: Int = 20): PollPage!
+  poll(id: ID!): Poll
+  institutes: [String!]!
+  trends(round: Int = 1, since: Date): [CandidateTrend!]!
+  averages(round: Int = 1, days: Int = 30): [CandidateAverage!]!
+  articles(q: String, page: Int = 0, size: Int = 20): ArticlePage!
+  stats: Stats!
+}
+
+type PollPage {
+  content: [Poll!]!
+  page: PageMetadata!
+}
+
+type ArticlePage {
+  content: [Article!]!
+  page: PageMetadata!
+}
+
+type PageMetadata {
+  size: Int!
+  number: Int!
+  totalElements: Int!
+  totalPages: Int!
+}
+
+type Poll {
+  id: ID!
+  institute: String!
+  client: String
+  fieldworkStart: Date
+  fieldworkEnd: Date
+  sampleSize: Int
+  scenario: String
+  round: Int
+  sourceUrl: String
+  results: [PollResult!]!
+}
+
+type PollResult {
+  candidate: String!
+  percentage: BigDecimal!
+}
+
+type Article {
+  id: ID!
+  title: String!
+  url: String!
+  source: String
+  publishedAt: DateTime
+  summary: String
+}
+
+type TrendPoint {
+  date: Date!
+  percentage: Float!
+  polls: Int!
+}
+
+type CandidateTrend {
+  candidate: String!
+  points: [TrendPoint!]!
+}
+
+type CandidateAverage {
+  candidate: String!
+  percentage: Float!
+  polls: Int!
+}
+
+type Stats {
+  polls: Int!
+  articles: Int!
+  institutes: Int!
+  latestPollDate: Date
+  lastCrawl: DateTime
+}

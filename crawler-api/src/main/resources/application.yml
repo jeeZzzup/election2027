@@ -1,0 +1,41 @@
+server:
+  port: 8081
+
+spring:
+  application:
+    name: election2027-crawler-api
+  datasource:
+    url: ${DB_URL:jdbc:postgresql://localhost:5432/election2027}
+    username: ${DB_USER:election}
+    password: ${DB_PASSWORD:election}
+  jpa:
+    open-in-view: false
+    hibernate:
+      ddl-auto: validate
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
+
+crawler:
+  # Planification (cron Spring à 6 champs) : toutes les 6 heures.
+  cron: "0 0 */6 * * *"
+  # Lance une collecte au démarrage de l'application.
+  run-on-startup: true
+
+  # Source principale des sondages : jeu de données ouvert sur data.gouv.fr (Licence Ouverte 2.0).
+  datagouv:
+    enabled: true
+    dataset-slug: presidentielle-2027-sondages-candidatures-et-projection-departementale
+    tabular-api-base-url: https://tabular-api.data.gouv.fr/api
+
+  # Actualités : flux RSS de recherche Google Actualités.
+  news:
+    enabled: true
+    max-per-query: 30
+    queries:
+      - "présidentielle 2027 sondage"
+      - "présidentielle 2027 intentions de vote"
+      - "présidentielle 2027 candidat"

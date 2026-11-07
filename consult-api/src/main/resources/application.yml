@@ -1,0 +1,30 @@
+server:
+  port: 8082
+
+spring:
+  application:
+    name: election2027-consult-api
+  graphql:
+    graphiql:
+      enabled: true
+  datasource:
+    url: ${DB_URL:jdbc:postgresql://localhost:5432/election2027}
+    username: ${DB_USER:election}
+    password: ${DB_PASSWORD:election}
+    hikari:
+      read-only: true
+  jpa:
+    open-in-view: false
+    hibernate:
+      ddl-auto: validate
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
+
+consult:
+  cors:
+    # Origines autorisées à appeler l'API (interface Angular en développement).
+    allowed-origins: ${CORS_ALLOWED_ORIGINS:http://localhost:4200}

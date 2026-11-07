@@ -1,0 +1,42 @@
+{
+  "info": {
+    "_postman_id": "604707d3-50d5-4c33-9fe5-d76d35168c2f",
+    "name": "election2027 - Crawl API",
+    "description": "API de collecte election2027",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "version": {
+      "major": 1,
+      "minor": 0,
+      "patch": 0
+    }
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:8081"
+    }
+  ],
+  "item": [
+    {
+      "name": "Lancer une collecte",
+      "request": {
+        "method": "POST",
+        "url": "{{baseUrl}}/api/crawl"
+      }
+    },
+    {
+      "name": "État de la collecte",
+      "request": {
+        "method": "GET",
+        "url": "{{baseUrl}}/api/crawl/status"
+      }
+    },
+    {
+      "name": "Historique des collectes",
+      "request": {
+        "method": "GET",
+        "url": "{{baseUrl}}/api/crawl/runs"
+      }
+    }
+  ]
+}
